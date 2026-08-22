@@ -1,10 +1,8 @@
-name: Generate Private Repo Stats
+name: Generate Repo Stats
 
 on:
   schedule:
-    # 每天北京时间早上8点运行一次
     - cron: '0 0 * * *'
-  # 允许你手动触发
   workflow_dispatch:
 
 jobs:
