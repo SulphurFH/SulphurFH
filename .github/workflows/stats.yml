@@ -1,0 +1,37 @@
+name: Generate Private Repo Stats
+
+on:
+  schedule:
+    # 每天北京时间早上8点运行一次
+    - cron: '0 0 * * *'
+  # 允许你手动触发
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install and Generate Stats
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          config_repositories: all
+          plugin_contributors: yes
+          plugin_contributors_contributions: yes
+          output: svg
+          filename: .github/stats.svg
+      
+      - name: Commit and Push Stats
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/stats.svg
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update private repo stats"
+          git push
