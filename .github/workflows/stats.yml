@@ -17,13 +17,11 @@ jobs:
           node-version: '20'
       
       - name: Install and Generate Stats
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-          config_repositories: all
-          # plugin_contributors: yes
-          # plugin_contributors_contributions: yes
-          output: svg
+          repositories: all
+          config_output: svg
           filename: .github/stats.svg
       
       - name: Commit and Push Stats
@@ -31,5 +29,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .github/stats.svg
-          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update private repo stats"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update repo stats"
           git push
