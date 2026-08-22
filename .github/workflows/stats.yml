@@ -21,8 +21,8 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           config_repositories: all
-          plugin_contributors: yes
-          plugin_contributors_contributions: yes
+          # plugin_contributors: yes
+          # plugin_contributors_contributions: yes
           output: svg
           filename: .github/stats.svg
       
